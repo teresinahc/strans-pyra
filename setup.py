@@ -8,7 +8,7 @@ setup(
     description='Inthegra API Python wrapper',
     author='Renato Alencar',
     author_email='renatoalencar.73@gmail.com',
-    url='https://github.com/',
+    url='https://github.com/teresinahc/strans-pyra',
     packages=['stranspyra'],
     install_requires=[
         'requests',

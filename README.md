@@ -7,7 +7,7 @@ in the Inthegra API.
 ## Installation
 
 ```bash
-pip install git+https://
+pip install git+https://github.com/teresinahc/strans-pyra
 ```
 
 ## Setup
