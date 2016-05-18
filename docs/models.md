@@ -15,55 +15,6 @@ e.g.:
 [<Route 0401 UNIVERSIDADE>, <Route T0401 BOA VISTA/AV.3/CENTRO/PQ ALVORADA/MUTIRAO - EXT 01>]
 ```
 
-## Bus
-
-Model for `veiculos` endpoint.
-
-### Attributes
-Attribute | Description
---- | ---
-code | a `int` unique identify.
-lat | a `float` coercible `str` for latitude.
-long | a `float` coercible `str` for longitude.
-hour | the last location update of the bus.
-
-### Methods
-
-**all(cls)**
-
-  Retrieves all buses from the API.
-
-  This endpoint need some special handling, since
-  it does not returns the list of objects, but a
-  list of routes with a list of buses inside.
-
-  **return**: A `Bus` instances list.
-
-**nearest(cls, lat, long, \*\*kwargs)**
-
-  Search for the nearest buses from `lat` and `long`
-  params.
-
-  You should specify the buses to search, default is `Buses.all()`.
-
-  Parameter | Description
-  --- | ---
-  lat | A float coercible value of latitude (eg.: -5.065533).
-  long | A float coercible value of longitude (eg.: -42.065533).
-
-  **Keywords params**
-
-  Param | Description
-  --- | ---  
-  buses | A list of `Stop` instance.
-  route | A `Route` instance.
-
-  **return**: A tuple with a `Bus` object and a `Distance` object (see geopy.distance).
-
-**search(cls, *args)**
-
-  > Not implemented for buses.
-
 ## Model
 
   The model base.
@@ -78,7 +29,7 @@ of the Inthegra API. The keys are all in portuguese and CamelCase style.
 
 ### Methods
 
-**__eq__(self, other)**
+**\_\_eq\_\_(self, other)**
 
   All objects of the API have the `code` attribute. The mappers
   creates it from something like `Codigo...`. This method allows
@@ -91,7 +42,7 @@ of the Inthegra API. The keys are all in portuguese and CamelCase style.
 
   **return**: Boolean, if this is equal to `other`.
 
-**__init__(self, obj=None)**
+**\_\_init\_\_(self, obj=None)**
 
   constructor
 
@@ -110,7 +61,7 @@ of the Inthegra API. The keys are all in portuguese and CamelCase style.
   Retrieves all the elements of the endpoint, search
   for the current one and updates.
 
-**all(cls)**
+**all(cls)**
 
   All the endpoints of the API returns all of its elements if
   called without params. This method returns all elements of
@@ -238,3 +189,52 @@ of the Inthegra API. The keys are all in portuguese and CamelCase style.
 
    **return**: A tuple with a `Stop` object and a `Distance`
     object (see geopy.distance).
+
+    ## Bus
+
+    Model for `veiculos` endpoint.
+
+    ### Attributes
+    Attribute | Description
+    --- | ---
+    code | a `int` unique identify.
+    lat | a `float` coercible `str` for latitude.
+    long | a `float` coercible `str` for longitude.
+    hour | the last location update of the bus.
+
+    ### Methods
+
+    **all(cls)**
+
+      Retrieves all buses from the API.
+
+      This endpoint need some special handling, since
+      it does not returns the list of objects, but a
+      list of routes with a list of buses inside.
+
+      **return**: A `Bus` instances list.
+
+    **nearest(cls, lat, long, \*\*kwargs)**
+
+      Search for the nearest buses from `lat` and `long`
+      params.
+
+      You should specify the buses to search, default is `Buses.all()`.
+
+      Parameter | Description
+      --- | ---
+      lat | A float coercible value of latitude (eg.: -5.065533).
+      long | A float coercible value of longitude (eg.: -42.065533).
+
+      **Keywords params**
+
+      Param | Description
+      --- | ---  
+      buses | A list of `Stop` instance.
+      route | A `Route` instance.
+
+      **return**: A tuple with a `Bus` object and a `Distance` object (see geopy.distance).
+
+    **search(cls, *args)**
+
+      > Not implemented for buses.
