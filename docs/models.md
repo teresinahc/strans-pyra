@@ -8,14 +8,14 @@ or stop.
 Besides that, the models provides links betweens the
 endpoints that the API itself does not provide.
 
-eg.:
+e.g.:
 
 ```
 >>> Route.search(401)
 [<Route 0401 UNIVERSIDADE>, <Route T0401 BOA VISTA/AV.3/CENTRO/PQ ALVORADA/MUTIRAO - EXT 01>]
 ```
 
-## Bus
+## Bus
 
 Model for `veiculos` endpoint.
 
@@ -29,7 +29,7 @@ hour | the last location update of the bus.
 
 ### Methods
 
-**all(cls)**
+**all(cls)**
 
   Retrieves all buses from the API.
 
@@ -78,7 +78,7 @@ of the Inthegra API. The keys are all in portuguese and CamelCase style.
 
 ### Methods
 
-**\_\_eq\_\_(self, other)**
+**__eq__(self, other)**
 
   All objects of the API have the `code` attribute. The mappers
   creates it from something like `Codigo...`. This method allows
@@ -91,7 +91,7 @@ of the Inthegra API. The keys are all in portuguese and CamelCase style.
 
   **return**: Boolean, if this is equal to `other`.
 
-**\_\_init\__(self, obj=None)**
+**__init__(self, obj=None)**
 
   constructor
 
@@ -110,7 +110,7 @@ of the Inthegra API. The keys are all in portuguese and CamelCase style.
   Retrieves all the elements of the endpoint, search
   for the current one and updates.
 
-**all(cls)**
+**all(cls)**
 
   All the endpoints of the API returns all of its elements if
   called without params. This method returns all elements of

@@ -1,7 +1,8 @@
 # Inthegra API Python wrapper.
 
 This is a Python wrapper for the Inthegra API,
-designed to provides some features not implemented
+designed to be simple, pythonist, safe for human
+consumption and provides some features not implemented
 in the Inthegra API.
 
 ## Installation
