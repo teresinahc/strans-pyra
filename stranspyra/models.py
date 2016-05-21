@@ -357,7 +357,7 @@ class Stop(Model):
         """
 
         if kwargs.get('stops', False):
-            stos = kwargs['stops']
+            stops = kwargs['stops']
         elif kwargs.get('route', False):
             stops = kwargs['route'].get_stops()
         else:
