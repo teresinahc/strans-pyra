@@ -47,12 +47,12 @@ def cached(method):
     def _cache_wrapper(self, *args, **kwargs):
         global __memcache__, __lock__
 
-        if __memcache__.get(self.code, {}).has_key(method.__name__):
+        if method.__name__ in __memcache__.get(self.code, {}):
             return __memcache__[self.code][method.__name__]
 
         with __lock__:
             ret = method(self, *args, **kwargs)
-            if not __memcache__.has_key(self.code):
+            if not self.code in __memcache__:
                 __memcache__[self.code] = dict()
             __memcache__[self.code][method.__name__] = ret
             return ret
@@ -79,7 +79,7 @@ def timestampcache(expires):
 
             with __lock__:
                 ret = method(self, *args, **kwargs)
-                if not __memcache__.has_key(self.code):
+                if not self.code in __memcache__:
                     __memcache__[self.code] = dict()
                     __timestamps__[self.code] = dict()
                 __memcache__[self.code][method.__name__] = ret
