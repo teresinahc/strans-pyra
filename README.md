@@ -62,6 +62,7 @@ More info about `Route` and other models, see [docs/models.md](./docs/models.md)
 * Static object caching system
 * Timestamp based caching system
 * Django-like settings system
+* Trace a route between to coordinates
 
 ## Requirements
 
@@ -85,6 +86,14 @@ More info about `Route` and other models, see [docs/models.md](./docs/models.md)
 >>> b401 = strans.Route.get_route(401)
 >>> b401
 <Route 0401 UNIVERSIDADE>
+```
+
+### Tracing route
+
+```python
+>>> route = strans.Route.traceroute((-5.0902805,-42.8138435), (-5.0869447,-42.8040027))
+>>> route
+((<Stop 215 RUA 07 DE SETEMBRO >, Distance(0.165885308859)), (<Stop 199 AV. FREI SERAFIM 6 >, Distance(0.0551390564549)), <Route 0617 HD-PLA. BELA VISTA SHOPPING VIA M.>)
 ```
 
 ### Getting the route's buses
