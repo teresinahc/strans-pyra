@@ -203,6 +203,9 @@ class Route(Model):
 
         info = api.get('/veiculosLinha', busca=self.code)
 
+        if info.get('code', 0) == 130:
+            return []
+
         buses = []
         for i in info['Linha']['Veiculos']:
             bus = Bus(i)
