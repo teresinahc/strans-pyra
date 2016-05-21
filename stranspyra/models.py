@@ -38,6 +38,7 @@ eg.:
 """
 
 from geopy.distance import distance
+import itertools
 
 import settings
 from . import api
@@ -169,6 +170,42 @@ class Route(Model):
         'Retorno': 'dest',
         'Circular': 'circular'
     }
+
+    @classmethod
+    def traceroute(self, source, dest):
+        """
+        Trace a route between `source` and `dest`.
+
+        First, find the nearest stop to `source` and the nearest to `dest`
+        and try to find a common route to both. Otherwise, fallbacks searching
+        for all routes of the `source` stop and `dest` stop, choosing the one
+        what is nearest to the `source` or `dest`.
+
+        @param source: a pair latitude and longitude
+        @param dest: a pair latitude and longitude
+
+        @return: a tuple like ((<source stop>, <distance to the nearest stop>),
+            (<dest stop>, <distance to the nearest stop>), <route>)
+        """
+
+        sourcestop, dsrc = Stop.nearest(source[0], source[1])
+        deststop, ddst = Stop.nearest(dest[0], dest[1])
+        sourceroutes = sourcestop.get_routes()
+        destroutes = deststop.get_routes()
+
+        for i,j in itertools.product(sourceroutes, destroutes):
+            if i == j:
+                return (sourcestop, dsrc), (deststop, ddst), i
+
+        dist, stop, route = min(
+            min(Stop.nearest(source[0], source[1], route=route)[::-1] + (route,) for route in destroutes),
+            min(Stop.nearest(dest[0], dest[1], route=route)[::-1] + (route,) for route in sourceroutes)
+        )
+
+        sourcestop = Stop.nearest(source[0], source[1], route=route)
+        deststop = Stop.nearest(dest[0], dest[1], route=route)
+
+        return sourcestop, deststop, route
 
     @cached
     def get_stops(self):
