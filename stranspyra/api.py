@@ -64,12 +64,12 @@ def auth():
     )
 
     try:
-        r = res.json()
-        token = r['token']
+        res = res.json()
+        token = res['token']
     except Exception:
-        r = res
+        pass
 
-    return r
+    return res
 
 def get(endpoint, **kwargs):
     """
