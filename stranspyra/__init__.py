@@ -72,7 +72,8 @@ Retrieving nearest bus:
 
 >>> bus = strans.Bus.nearest(-5.056221603326806,-42.79030821362158)
 >>> bus
-(<Bus 02764 - 0365 UNIVERSIDADE CIRCULAR 2 VIA SHOPPING>, Distance(0.72410974728))
+(<Bus 02764 - 0365 UNIVERSIDADE CIRCULAR 2 VIA SHOPPING>,
+Distance(0.72410974728))
 
 """
 

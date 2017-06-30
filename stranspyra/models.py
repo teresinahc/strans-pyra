@@ -33,17 +33,18 @@ endpoints that the API itself does not provide.
 eg.:
 
 >>> Route.search(401)
-[<Route 0401 UNIVERSIDADE>, <Route T0401 BOA VISTA/AV.3/CENTRO/PQ ALVORADA/MUTIRAO - EXT 01>]
+[<Route 0401 UNIVERSIDADE>, <Route T0401 BOA VISTA/AV.3/CENTRO/PQ
+ALVORADA/MUTIRAO - EXT 01>]
 
 """
 
 from geopy.distance import distance
 import itertools
 
-import settings
 from . import api
-from .exceptions import *
+from .exceptions import RouteNotFoundError
 from .cache import cached, timestampcache
+
 
 class Model(object):
     """
@@ -151,6 +152,7 @@ class Model(object):
         """
         return filter(func, cls.all())
 
+
 class Route(Model):
     """
     Provides a model to access the endpoint `linhas`.
@@ -193,13 +195,25 @@ class Route(Model):
         sourceroutes = sourcestop.get_routes()
         destroutes = deststop.get_routes()
 
-        for i,j in itertools.product(sourceroutes, destroutes):
+        for i, j in itertools.product(sourceroutes, destroutes):
             if i == j:
                 return (sourcestop, dsrc), (deststop, ddst), i
 
         dist, stop, route = min(
-            min(Stop.nearest(source[0], source[1], route=route)[::-1] + (route,) for route in destroutes),
-            min(Stop.nearest(dest[0], dest[1], route=route)[::-1] + (route,) for route in sourceroutes)
+            min(
+                Stop.nearest(
+                    source[0],
+                    source[1],
+                    route=route
+                )[::-1] + (route,) for route in destroutes
+            ),
+            min(
+                Stop.nearest(
+                    dest[0],
+                    dest[1],
+                    route=route
+                )[::-1] + (route,) for route in sourceroutes
+            )
         )
 
         sourcestop = Stop.nearest(source[0], source[1], route=route)
@@ -272,7 +286,6 @@ class Route(Model):
 
         lines = cls.search(route)
         for i in lines:
-            code = i.code
             if isinstance(route, int):
                 try:
                     if int(i.code) == route:
@@ -284,10 +297,11 @@ class Route(Model):
                 if route == i.code:
                     return i
 
-        raise RouteNotFoundError('Linha {0} não encontrada.'.format(line))
+        raise RouteNotFoundError('Linha {0} não encontrada.'.format(route))
 
     def __repr__(self):
         return u'<Route {0} {1}>'.format(self.code, self.description)
+
 
 class Stop(Model):
     """
@@ -324,7 +338,7 @@ class Stop(Model):
 
         @return: A list of `Route` instances.
         """
-        ## FIXME: **too slow**
+        # FIXME: **too slow**
 
         lines = Route.all()
         r = []
@@ -369,6 +383,7 @@ class Stop(Model):
             ), stops)
 
         return min(zip(dists, stops))[::-1]
+
 
 class Bus(Model):
     """

@@ -36,6 +36,7 @@ __memcache__ = dict()
 __lock__ = threading.RLock()
 __timestamps__ = dict()
 
+
 def cached(method):
     """
     Static memory cache system decorator.
@@ -52,11 +53,12 @@ def cached(method):
 
         with __lock__:
             ret = method(self, *args, **kwargs)
-            if not self.code in __memcache__:
+            if self.code not in __memcache__:
                 __memcache__[self.code] = dict()
             __memcache__[self.code][method.__name__] = ret
             return ret
     return _cache_wrapper
+
 
 def timestampcache(expires):
     """
@@ -73,13 +75,18 @@ def timestampcache(expires):
             global __memcache__, __timestamps__, __lock__
 
             now = time.time()
+            last_update = __timestamps__.get(
+                self.code, {}
+            ).get(
+                method.__name__, now
+            )
 
-            if __timestamps__.get(self.code, {}).get(method.__name__, now) > now:
+            if last_update > now:
                 return __memcache__[self.code][method.__name__]
 
             with __lock__:
                 ret = method(self, *args, **kwargs)
-                if not self.code in __memcache__:
+                if self.code not in __memcache__:
                     __memcache__[self.code] = dict()
                     __timestamps__[self.code] = dict()
                 __memcache__[self.code][method.__name__] = ret
